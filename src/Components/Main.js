@@ -1,61 +1,54 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import Title from './Title';
-import PhotoWall from './PhotoWall';
-import { func } from 'prop-types';
-import AddPhoto from './AddPhoto';
-import { Route,Link } from 'react-router-dom'
-import {removePost} from '../redux/actions'
-import Single from './Single'
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import Title from "./Title";
+import PhotoWall from "./PhotoWall";
+import { func } from "prop-types";
+import AddPhoto from "./AddPhoto";
+import { Route, Link } from "react-router-dom";
+import { removePost } from "../redux/actions";
+import Single from "./Single";
 
 class Main extends Component {
+  componentDidMount() {
+    this.props.startLoadingPost();
+    this.props.startLoadingComments();
+  }
+  constructor() {
+    super();
+  }
 
+  render() {
+    console.log(this.props);
 
-    componentDidMount()
-    {
-        this.props.startLoadingPost()
-        this.props.startLoadingComments()
-    }
-    constructor() {
-        super()
+    return (
+      <div>
+        <h1>
+          <Link to="/">PhotoWall</Link>
+        </h1>
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <div>
+              <PhotoWall {...this.props} />
+            </div>
+          )}
+        />
 
+        <Route
+          path="/AddPhoto"
+          render={({ history }) => (
+            <AddPhoto {...this.props} onHistory={history} />
+          )}
+        />
 
-
-    }
-
-
-
-    render() {
-        console.log(this.props)
-    
-        return <div>
-
-            <h1>
-                <Link to="/">PhotoWall</Link>
-            </h1>
-            <Route exact path="/" render={() => (
-
-                <div>
-                    <PhotoWall {...this.props} />
-                </div>
-
-
-            )} />
-
-            <Route path="/AddPhoto" render={({history}) => (
-
-                <AddPhoto {...this.props} onHistory = {history} />
-            )} />
-
-            <Route path='/single/:id' render = {(params)=> (
-                <Single  {...this.props}{...params}/>
-            )} />
-        </div>
-
-    }
-
- 
-    
+        <Route
+          path="/single/:id"
+          render={(params) => <Single {...this.props} {...params} />}
+        />
+      </div>
+    );
+  }
 }
 
 // function SimulateFectFromDatabase()
@@ -77,5 +70,4 @@ class Main extends Component {
 //         }]
 // }
 
-
-export default Main
+export default Main;

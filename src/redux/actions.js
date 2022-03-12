@@ -82,7 +82,6 @@ export function removePost(index) {
 }
 
 
-
 //adding post
 
 export function addPost(post) {
